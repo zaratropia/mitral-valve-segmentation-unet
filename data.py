@@ -191,8 +191,8 @@ def cleanup_broken_data():
 
 
 def create_test_data():
-    train_data_path = os.path.join(data_path, 'test')
-    images = os.listdir(train_data_path)
+    test_data_path = os.path.join(data_path, 'test')
+    images = os.listdir(test_data_path)
     total = len(images)
 
     imgs = np.ndarray((total, image_rows, image_cols))
@@ -208,9 +208,8 @@ def create_test_data():
             continue
 
         size = len(image_name.split('.'))
-        image_name_without_ext = image_name.split('.')[size-2].replace("_mask", "")
-        img_id = image_name_without_ext
-        img, head = nrrd.read(os.path.join(train_data_path, image_name))
+        img_id = image_name.split('.')[size-2].replace("_mask", "")
+        img, head = nrrd.read(os.path.join(test_data_path, image_name))
         head["custom_name"] = image_name;
 
         img = img.squeeze()
