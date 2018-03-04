@@ -78,6 +78,7 @@ def create_resized_train_data():
         img_mask[img_mask > 1] = 1
         imgs_mask[i] = resize(img_mask, (image_rows, image_cols), preserve_range=True)
 
+        # Disbaled, causes high memory load in large data sets
         # if i % 100 == 0:
         #     print('Done: {0}/{1} images'.format(i, total))
         i += 1
@@ -85,6 +86,7 @@ def create_resized_train_data():
 
     np.save('imgs_train.npy', imgs)
     np.save('imgs_mask_train.npy', imgs_mask)
+    print('*'*30)
     print('Saving to .npy files done.')
 
 
@@ -127,6 +129,7 @@ def create_cropped_train_data():
 
     np.save('imgs_train.npy', imgs)
     np.save('imgs_mask_train.npy', imgs_mask)
+    print('*'*30)
     print('Saving to .npy files done.')
 
 # Crop helper
@@ -147,10 +150,8 @@ def preprocess_test_data():
     train_data_path = os.path.join(data_path, 'test')
     images = os.listdir(train_data_path)
 
-    i = 0
     print('*'*30)
     print('Process test images...')
-    print('*'*30)
     for image_name in images:
         filename = os.path.join(train_data_path, image_name)
         if "_mask" in filename:
@@ -170,10 +171,11 @@ def preprocess_train_data():
        if "_mask" in filename:
           ndarray_slice, head = nrrd.read(filename)
           if ndarray_slice.max() == 0:
-             print ('Empty mask - delete: ' + filename)
              # remove only if blank mask, than remove also normal image
              os.remove(filename)
              os.remove(filename.replace('_mask', ''))
+             i = i + 1
+    print('Removed {0} empty masks.'.format(i))
 
 
 def cleanup_broken_data():
@@ -229,6 +231,7 @@ def create_test_data():
     print('Saving to .npy files done.')
     with open('imgs_header_test.json', 'wb') as outfile:
         simplejson.dump(imgs_header, outfile)
+    print('*'*30)
     print('Saving header information done.')
 
 
@@ -239,29 +242,7 @@ def load_test_data():
         imgs_header = json.loads(jsonfile.read())
     return imgs_test, imgs_id, imgs_header
 
-
-# def test():
-#     print(image_rows)
-#     print(image_cols)
-
-#     #data, head = nrrd.read('raw/train-sadf123bak/P0025_T1F_IM_0030_pr1_0_fan_1_mask.nrrd')
-#     data, head = nrrd.read('raw/train/P0025_T1F_IM_0030_pr1_0_fan_1.nrrd')
-#     f = open('ramp.png', 'wb')
-#     image = data.squeeze()
-#     w = png.Writer(image.shape[1], image.shape[0], greyscale=True)
-#     w.write(f, image)
-#     f.close()
-#     exit()
-#     # print(np.amax(data))
-#     data1, head = nrrd.read('raw/train/P0025_T1F_IM_0030_pr1_0_fan_1_mask.nrrd')
-#     data2[data2 > 254] = 1
-#     print(np.amax(data2))
-#     print(np.array_equal(data, data2))
-#     exit()
-
-
 # Preporcessing helpers
-
 def max_image_rows():
     train_data_path = os.path.join(data_path, 'train')
     images = os.listdir(train_data_path)

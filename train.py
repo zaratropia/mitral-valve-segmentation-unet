@@ -98,7 +98,6 @@ def preprocess(imgs):
 def train_and_predict():
     print('*'*30)
     print('Loading and preprocessing train data...')
-    print('*'*30)
 
     imgs_train, imgs_mask_train = load_train_data()
 
@@ -119,20 +118,17 @@ def train_and_predict():
 
     print('*'*30)
     print('Creating and compiling model...')
-    print('*'*30)
     model = get_unet()
     model_checkpoint = ModelCheckpoint('weights.h5', monitor='val_loss', save_best_only=True)
 
     print('*'*30)
     print('Fitting model...')
-    print('*'*30)
     model.fit(imgs_train, imgs_mask_train, batch_size=32, epochs=20, verbose=1, shuffle=True, # was True
               validation_split=0.2,
               callbacks=[model_checkpoint, tb_callback])
 
     print('*'*30)
     print('Loading and preprocessing test data...')
-    print('*'*30)
     imgs_test, imgs_id_test, imgs_header_test = load_test_data()
     imgs_test = preprocess(imgs_test)
 
@@ -142,18 +138,15 @@ def train_and_predict():
 
     print('*'*30)
     print('Loading saved weights...')
-    print('*'*30)
     model.load_weights('weights.h5')
 
     print('*'*30)
     print('Predicting masks on test data...')
-    print('*'*30)
     imgs_mask_test = model.predict(imgs_test, verbose=1)
     np.save('imgs_mask_test.npy', imgs_mask_test)
 
     print('-' * 30)
     print('Saving predicted masks to files...')
-    print('-' * 30)
     pred_dir = 'preds'
     if not os.path.exists(pred_dir):
         os.mkdir(pred_dir)
