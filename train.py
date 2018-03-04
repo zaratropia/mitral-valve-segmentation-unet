@@ -114,8 +114,8 @@ def train_and_predict():
 
     imgs_mask_train = imgs_mask_train.astype('float32')
     print('*'*30)
-    print("Max mask value:" + str(np.amax(imgs_mask_train))
-    print("Min mask value:" + str(np.amin(imgs_mask_train))
+    print("Max mask value:" + str(np.amax(imgs_mask_train)))
+    print("Min mask value:" + str(np.amin(imgs_mask_train)))
 
     print('*'*30)
     print('Creating and compiling model...')
