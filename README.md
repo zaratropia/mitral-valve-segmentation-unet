@@ -24,11 +24,11 @@ how the numpy files are generated (in case enough space is available).
 After the generation of the numpy files just run the `train.py` script. Training will start, default 20 epochs.
 This parameter can be easily adjusted in the code. Just check the parameters of the `model.fit` function.
 
-The trained weights are used after the training to predict masks on the loaded test files. The output includes
-.nrrd and .tiff files for more convenient data access.
+The trained weights are used after the training to predict masks on the loaded test files. The output includes .nrrd and .tiff files for more convenient data access. You can find them in the `preds` directory.
 
 
-### Directory structure for train and test data
+#### Directory structure for train and test data
+>>>>>>> Add some details to readme
 
 raw/  
 ├── train  
