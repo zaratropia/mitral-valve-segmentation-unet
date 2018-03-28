@@ -1,0 +1,8 @@
+numpy
+scikit-image
+simplejson
+png
+keras
+tensorflow
+tensorboard
+vis
