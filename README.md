@@ -28,7 +28,6 @@ The trained weights are used after the training to predict masks on the loaded t
 
 
 #### Directory structure for train and test data
->>>>>>> Add some details to readme
 
 raw/  
 ├── train  
